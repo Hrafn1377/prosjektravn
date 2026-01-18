@@ -1,0 +1,107 @@
+<header class="page-header">
+  <h1>Document Management</h1>
+  <div class="header-actions">
+    <button class="secondary" (click)="openTemplates()">📄 Templates</button>
+    <button (click)="newDocument()">+ New Document</button>
+  </div>
+</header>
+
+<div class="documents-layout">
+  <aside class="folders-sidebar">
+    <h3>Folders</h3>
+    <ul>
+      @for (folder of folders; track folder) {
+        <li 
+          [class.active]="selectedFolder === folder"
+          (click)="selectedFolder = folder"
+        >
+          📁 {{ folder }}
+        </li>
+      }
+    </ul>
+  </aside>
+
+  <main class="documents-main">
+    @if (documents$ | async; as docs) {
+      @if (getDocsByFolder(docs, selectedFolder).length > 0) {
+        <div class="documents-grid">
+          @for (doc of getDocsByFolder(docs, selectedFolder); track doc.id) {
+            <article class="doc-card" (click)="editDocument(doc)">
+              <h3>{{ doc.title }}</h3>
+              <p>{{ doc.content ? doc.content.substring(0, 100) : '' }}{{ doc.content && doc.content.length > 100 ? '...' : '' }}</p>
+              <footer>
+                <span>Updated {{ formatDate(doc.updated_at) }}</span>
+                <button class="contrast small" (click)="deleteDocument(doc.id); $event.stopPropagation()">🗑️</button>
+              </footer>
+            </article>
+          }
+        </div>
+      } @else {
+        <div class="empty-state">
+          <p>📄 No documents in {{ selectedFolder }}</p>
+          <div class="empty-actions">
+            <button (click)="newDocument()">Create Document</button>
+            <button class="secondary" (click)="openTemplates()">Use Template</button>
+          </div>
+        </div>
+      }
+    }
+  </main>
+</div>
+
+<!-- Templates Modal -->
+@if (showTemplates) {
+  <dialog open>
+    <article class="templates-modal">
+      <header>
+        <h3>Choose a Template</h3>
+        <button class="close-btn" (click)="closeTemplates()">×</button>
+      </header>
+      <div class="templates-grid">
+        @for (template of templates; track template.name) {
+          <div class="template-card" (click)="useTemplate(template)">
+            <span class="template-icon">{{ template.icon }}</span>
+            <span class="template-name">{{ template.name }}</span>
+          </div>
+        }
+      </div>
+      <footer>
+        <button class="secondary" (click)="closeTemplates()">Cancel</button>
+      </footer>
+    </article>
+  </dialog>
+}
+
+<!-- Editor Modal -->
+@if (showEditor) {
+  <dialog open>
+    <article class="editor-modal">
+      <header>
+        <h3>{{ editingDoc ? 'Edit Document' : 'New Document' }}</h3>
+        <button class="close-btn" (click)="closeEditor()">×</button>
+      </header>
+      <form (ngSubmit)="saveDocument()">
+        <label>
+          Title
+          <input type="text" [(ngModel)]="docTitle" name="title" required>
+        </label>
+        <label>
+          Folder
+          <select [(ngModel)]="docFolder" name="folder">
+            @for (folder of folders; track folder) {
+              <option [value]="folder">{{ folder }}</option>
+            }
+          </select>
+        </label>
+        <label>
+          Content
+          <textarea [(ngModel)]="docContent" name="content" rows="15"></textarea>
+        </label>
+        <footer>
+          <button type="button" class="secondary" (click)="closeEditor()">Cancel</button>
+          <button type="submit">Save</button>
+        </footer>
+      </form>
+    </article>
+  </dialog>
+}

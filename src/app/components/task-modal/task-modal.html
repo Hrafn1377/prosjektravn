@@ -1,0 +1,46 @@
+<dialog #dialog>
+  <article>
+    <header>
+      <h3>{{ isEditing ? 'Edit Task' : 'New Task' }}</h3>
+    </header>
+    <form (ngSubmit)="onSubmit()">
+      <label>
+        Title
+        <input type="text" [(ngModel)]="title" name="title" required>
+      </label>
+      <label>
+        Description
+        <textarea [(ngModel)]="description" name="description" rows="3"></textarea>
+      </label>
+      <div class="form-row">
+      <label>
+        Priority
+        <select [(ngModel)]="priority" name="priority">
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+      </label>
+      <label>
+        Due Date
+        <input type="date" [(ngModel)]="dueDate" name="dueDate">
+      </label>
+      </div>
+      <label>
+        Project
+        <select [(ngModel)]="projectId" name="projectId">
+          <option value="">No Project</option>
+          @if (projects$ | async; as projects) {
+            @for (project of projects; track project.id) {
+              <option [value]="project.id">{{ project.name }}</option>
+            }
+          }
+        </select>
+      </label>
+      <footer>
+        <button type="button" class="secondary" (click)="close()">Cancel</button>
+        <button type="submit">{{ isEditing ? 'Save' : 'Create' }}</button>
+      </footer>
+    </form>
+  </article>
+  </dialog>

@@ -1,0 +1,117 @@
+\<header class="page-header">
+  <h1>Collaborations</h1>
+</header>
+
+<div class="collab-grid">
+  <section class="team-section">
+    <article>
+      <header>
+        <h2>Team Members</h2>
+        <button (click)="openMemberModal()" class="small">+ Add Member</button>
+      </header>
+
+      @if (teamMembers$ | async; as members) {
+        @if (members.length > 0) {
+          <ul class="team-list">
+            @for (member of members; track member.id) {
+              <li>
+                <div class="member-avatar">{{ member.avatar }}</div>
+                <div class="member-info">
+                  <strong>{{ member.name }}</strong>
+                  <span>{{ member.email }}</span>
+                </div>
+                <span class="member-role">{{ member.role }}</span>
+                <div class="member-actions">
+                  <button class="secondary small" (click)="openMemberModal(member)">Edit</button>
+                  <button class="contrast small" (click)="deleteMember(member.id)">×</button>
+                </div>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="empty">No team members yet. Add someone to collaborate!</p>
+        }
+      }
+    </article>
+  </section>
+
+  <section class="activity-section">
+    <article>
+      <header>
+        <h2>Team Activity</h2>
+      </header>
+
+      <div class="comment-input">
+        <textarea [(ngModel)]="newComment" placeholder="Share an update..." rows="2"></textarea>
+        <button (click)="addComment()" [disabled]="!newComment.trim()">Post</button>
+      </div>
+
+      @if (comments$ | async; as comments) {
+        @if (comments.length > 0) {
+          <ul class="activity-list">
+            @for (comment of comments; track comment.id) {
+              <li>
+                <div class="comment-header">
+                  <strong>{{ comment.author }}</strong>
+                  <span class="timestamp">{{ formatDate(comment.created_at) }}</span>
+                </div>
+                <p>{{ comment.content }}</p>
+                <button class="contrast small delete-btn" (click)="deleteComment(comment.id)">Delete</button>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="empty">No activity yet. Post an update to get started!</p>
+        }
+      }
+    </article>
+  </section>
+</div>
+
+@if (showMemberModal) {
+  <dialog open>
+    <article>
+      <header>
+        <h3>{{ editingMember ? 'Edit Team Member' : 'Add Team Member' }}</h3>
+      </header>
+      <form (ngSubmit)="saveMember()">
+        <label>
+          Avatar
+          <div class="avatar-picker">
+            @for (avatar of avatarOptions; track avatar) {
+              <button 
+                type="button" 
+                class="avatar-option" 
+                [class.selected]="memberAvatar === avatar"
+                (click)="memberAvatar = avatar"
+              >
+                {{ avatar }}
+              </button>
+            }
+          </div>
+        </label>
+        <label>
+          Name
+          <input type="text" [(ngModel)]="memberName" name="name" required>
+        </label>
+        <label>
+          Email
+          <input type="email" [(ngModel)]="memberEmail" name="email" required>
+        </label>
+        <label>
+          Role
+          <select [(ngModel)]="memberRole" name="role">
+            <option value="Admin">Admin</option>
+            <option value="Manager">Manager</option>
+            <option value="Member">Member</option>
+            <option value="Viewer">Viewer</option>
+          </select>
+        </label>
+        <footer>
+          <button type="button" class="secondary" (click)="closeMemberModal()">Cancel</button>
+          <button type="submit">Save</button>
+        </footer>
+      </form>
+    </article>
+  </dialog>
+}

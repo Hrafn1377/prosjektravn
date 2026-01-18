@@ -1,0 +1,134 @@
+<header class="page-header">
+  <h1>Planning & Scheduling</h1>
+  <div class="nav-controls">
+    <button class="icon-btn" (click)="previousMonth()">←</button>
+    <button class="today-btn" (click)="goToToday()">Today</button>
+    <button class="icon-btn" (click)="nextMonth()">→</button>
+  </div>
+</header>
+
+<div class="month-header">{{ getMonthName() }}</div>
+
+<div class="calendar">
+  <!-- Weekday headers -->
+  <div class="weekday-row">
+    <div class="week-label">wk</div>
+    <div class="weekday">Mon</div>
+    <div class="weekday">Tue</div>
+    <div class="weekday">Wed</div>
+    <div class="weekday">Thu</div>
+    <div class="weekday">Fri</div>
+    <div class="weekday weekend">Sat</div>
+    <div class="weekday weekend">Sun</div>
+  </div>
+
+  <!-- Calendar weeks -->
+  @for (week of calendarWeeks; track week.weekNumber) {
+    <div class="week-row">
+      <div class="week-number">{{ week.weekNumber }}</div>
+      @for (day of week.days; track day.date) {
+        <div 
+          class="day-cell"
+          [class.other-month]="!day.isCurrentMonth"
+          [class.today]="day.isToday"
+          [class]="getHeatClass(day.taskCount)"
+        >
+          <span class="day-number">{{ day.dayOfMonth }}</span>
+        </div>
+      }
+    </div>
+  }
+</div>
+
+<!-- Heat Map Legend -->
+<div class="legend">
+  <span class="legend-label">Workload:</span>
+  <div class="legend-item">
+    <span class="legend-swatch"></span>
+    <span>Free</span>
+  </div>
+  <div class="legend-item">
+    <span class="legend-swatch heat-light"></span>
+    <span>Light</span>
+  </div>
+  <div class="legend-item">
+    <span class="legend-swatch heat-medium"></span>
+    <span>Moderate</span>
+  </div>
+  <div class="legend-item">
+    <span class="legend-swatch heat-heavy"></span>
+    <span>Busy</span>
+  </div>
+</div>
+
+<!-- Project Swimlanes -->
+@if (swimlanes.length > 0 || unassignedTasks.length > 0) {
+  <section class="swimlanes">
+    <h2>Project Overview</h2>
+    
+    @for (swimlane of swimlanes; track swimlane.project.id) {
+      <div class="swimlane">
+        <div class="swimlane-header">
+          <span class="project-color" [style.background]="swimlane.project.color"></span>
+          <span class="project-name">{{ swimlane.project.name }}</span>
+          <span class="task-count">{{ swimlane.tasks.length }} tasks</span>
+        </div>
+        
+        <div class="swimlane-body">
+          @for (week of calendarWeeks; track week.weekNumber) {
+            <div class="swimlane-week">
+              @for (task of swimlane.tasks; track task.id) {
+                @if (getTaskPosition(task, week); as pos) {
+                  <div 
+                    class="task-bar"
+                    [style.grid-column]="(pos.start + 1) + ' / span ' + pos.span"
+                    [style.background]="swimlane.project.color"
+                    [title]="task.title + ' - ' + task.status"
+                  >
+                    <div class="task-progress" [style.width.%]="getProgressWidth(task)"></div>
+                    <span class="task-label">{{ task.title }}</span>
+                  </div>
+                }
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+    
+    @if (unassignedTasks.length > 0) {
+      <div class="swimlane unassigned">
+        <div class="swimlane-header">
+          <span class="project-color" style="background: #6b7280"></span>
+          <span class="project-name">Unassigned</span>
+          <span class="task-count">{{ unassignedTasks.length }} tasks</span>
+        </div>
+        
+        <div class="swimlane-body">
+          @for (week of calendarWeeks; track week.weekNumber) {
+            <div class="swimlane-week">
+              @for (task of unassignedTasks; track task.id) {
+                @if (getTaskPosition(task, week); as pos) {
+                  <div 
+                    class="task-bar"
+                    [style.grid-column]="(pos.start + 1) + ' / span ' + pos.span"
+                    [style.background]="getTaskColor(task)"
+                    [title]="task.title + ' - ' + task.status"
+                  >
+                    <div class="task-progress" [style.width.%]="getProgressWidth(task)"></div>
+                    <span class="task-label">{{ task.title }}</span>
+                  </div>
+                }
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </section>
+} @else {
+  <div class="empty-state">
+    <p>📅 No tasks with due dates</p>
+    <p>Add due dates to tasks to see them on the calendar.</p>
+  </div>
+}

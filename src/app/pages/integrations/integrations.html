@@ -1,0 +1,51 @@
+<header class="page-header">
+  <div>
+    <h1>Integrations</h1>
+    <p class="subtitle">{{ connectedCount }} of {{ integrations.length }} connected</p>
+  </div>
+</header>
+
+<div class="filters">
+  <input 
+    type="search" 
+    [(ngModel)]="searchQuery" 
+    placeholder="Search integrations..."
+    class="search-input"
+  >
+  <div class="category-tabs">
+    @for (category of categories; track category) {
+      <button 
+        [class.active]="selectedCategory === category"
+        (click)="selectedCategory = category"
+        class="secondary"
+      >
+        {{ category }}
+      </button>
+    }
+  </div>
+</div>
+
+<div class="integrations-grid">
+  @for (integration of filteredIntegrations; track integration.id) {
+    <article class="integration-card" [class.connected]="integration.connected">
+      <div class="integration-icon">{{ integration.icon }}</div>
+      <div class="integration-info">
+        <h3>{{ integration.name }}</h3>
+        <p>{{ integration.description }}</p>
+        <span class="category-tag">{{ integration.category }}</span>
+      </div>
+      <button 
+        [class]="integration.connected ? 'secondary' : 'primary'"
+        (click)="toggleConnection(integration)"
+      >
+        {{ integration.connected ? 'Disconnect' : 'Connect' }}
+      </button>
+    </article>
+  }
+</div>
+
+@if (filteredIntegrations.length === 0) {
+  <article class="empty-state">
+    <p>No integrations found matching your criteria.</p>
+  </article>
+}

@@ -1,0 +1,159 @@
+<header class="page-header">
+  <h1>Support</h1>
+  <div class="header-actions">
+    <button class="secondary" (click)="openTemplateSelector()">📄 Templates</button>
+    <button (click)="openModal()">🎫 New Ticket</button>
+  </div>
+</header>
+
+<div class="support-grid">
+  <section class="faq-section">
+    <article>
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-list">
+        @for (faq of faqs; track faq.question) {
+          <div class="faq-item" [class.expanded]="faq.expanded">
+            <div class="faq-question" (click)="toggleFaq(faq)">
+              <span>{{ faq.question }}</span>
+              <span class="toggle-icon">{{ faq.expanded ? '−' : '+' }}</span>
+            </div>
+            @if (faq.expanded) {
+              <p class="faq-answer">{{ faq.answer }}</p>
+            }
+          </div>
+        }
+      </div>
+    </article>
+  </section>
+
+  <section class="tickets-section">
+    <article>
+      <h2>Your Tickets</h2>
+      @if (tickets$ | async; as tickets) {
+        @if (tickets.length > 0) {
+          <ul class="ticket-list">
+            @for (ticket of tickets; track ticket.id) {
+              <li class="ticket-item">
+                <div class="ticket-header">
+                  <div class="ticket-title">
+                    <span class="ticket-type-icon">{{ getTypeIcon(ticket.type) }}</span>
+                    <strong>{{ ticket.subject }}</strong>
+                  </div>
+                  <span class="status status-{{ ticket.status }}">{{ ticket.status }}</span>
+                </div>
+                <p class="ticket-description">{{ ticket.description.substring(0, 150) }}{{ ticket.description.length > 150 ? '...' : '' }}</p>
+                <div class="ticket-footer">
+                  <span class="meta">
+                    <span class="ticket-type">{{ getTypeName(ticket.type) }}</span>
+                    · {{ formatDate(ticket.createdAt) }} 
+                    · {{ ticket.priority }} priority
+                  </span>
+                  <div class="ticket-actions">
+                    @if (ticket.status === 'open') {
+                      <button class="small" (click)="updateTicketStatus(ticket.id, 'in-progress')">Start</button>
+                    }
+                    @if (ticket.status === 'in-progress') {
+                      <button class="small" (click)="updateTicketStatus(ticket.id, 'resolved')">Resolve</button>
+                    }
+                    <button class="small contrast" (click)="deleteTicket(ticket.id)">Delete</button>
+                  </div>
+                </div>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="empty">No support tickets. Need help? Create a ticket!</p>
+        }
+      }
+    </article>
+  </section>
+
+  <section class="contact-section">
+    <article>
+      <h2>Contact Us</h2>
+      <div class="contact-options">
+        <div class="contact-item">
+          <span class="contact-icon">📧</span>
+          <div>
+            <h3>Email</h3>
+            <p>support&#64;prosjektravn.app</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">💬</span>
+          <div>
+            <h3>Live Chat</h3>
+            <p>Available 9am-5pm EST</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">📚</span>
+          <div>
+            <h3>Documentation</h3>
+            <p>docs.prosjektravn.app</p>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+</div>
+
+<!-- Template Selector Modal -->
+@if (showTemplateSelector) {
+  <dialog open>
+    <article class="template-modal">
+      <header>
+        <h3>Choose Ticket Type</h3>
+        <button class="close-btn" (click)="closeTemplateSelector()">×</button>
+      </header>
+      <div class="template-grid">
+        @for (template of ticketTemplates; track template.type) {
+          <div class="template-card" (click)="selectTemplate(template)">
+            <span class="template-icon">{{ template.icon }}</span>
+            <span class="template-name">{{ template.name }}</span>
+          </div>
+        }
+      </div>
+      <footer>
+        <button class="secondary" (click)="closeTemplateSelector()">Cancel</button>
+      </footer>
+    </article>
+  </dialog>
+}
+
+<!-- Ticket Form Modal -->
+@if (showModal) {
+  <dialog open>
+    <article class="ticket-modal">
+      <header>
+        <h3>
+          <span>{{ getTypeIcon(ticketType) }}</span>
+          New {{ getTypeName(ticketType) }}
+        </h3>
+        <button class="close-btn" (click)="closeModal()">×</button>
+      </header>
+      <form (ngSubmit)="submitTicket()">
+        <label>
+          Subject
+          <input type="text" [(ngModel)]="ticketSubject" name="subject" required placeholder="Brief summary of your issue">
+        </label>
+        <label>
+          Priority
+          <select [(ngModel)]="ticketPriority" name="priority">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </label>
+        <label>
+          Description
+          <textarea [(ngModel)]="ticketDescription" name="description" rows="12" required></textarea>
+        </label>
+        <footer>
+          <button type="button" class="secondary" (click)="closeModal()">Cancel</button>
+          <button type="submit">Submit Ticket</button>
+        </footer>
+      </form>
+    </article>
+  </dialog>
+}

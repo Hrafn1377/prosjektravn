@@ -1,0 +1,31 @@
+<article class="task-card" [class.overdue]="isOverdue()" [class.due-soon]="isDueSoon()">
+  <header>
+    <strong>{{ task.title }}</strong>
+    <span class="priority priority-{{ task.priority }}">{{ task.priority }}</span>
+  </header>
+  <p>{{ task.description }}</p>
+  <div class="task-meta">
+    @if (task.dueDate) {
+      <span class="due-date" [class.overdue]="isOverdue()">
+        📅 {{ formatDate(task.dueDate) }}
+      </span>
+    }
+    @if (task.projectId) {
+      @if (getProjectName(task.projectId) | async; as projectName) {
+        <span class="project-tag">📁 {{ projectName }}</span>
+      }
+    }
+  </div>
+  <footer>
+    <div class="task-actions">
+      @if (task.status !== 'pending') {
+        <button class="secondary" (click)="moveLeft()">←</button>
+      }
+      @if (task.status !== 'completed') {
+        <button class="secondary" (click)="moveRight()">→</button>
+      }
+      <button class="secondary" (click)="onEdit()">Edit</button>
+      <button class="contrast" (click)="onDelete()">Delete</button>
+    </div>
+  </footer>
+</article>

@@ -1,0 +1,52 @@
+<header class="page-header">
+  <h1>Projects</h1>
+  <button (click)="openNewProject()">+ New Project</button>
+</header>
+
+@if (projectsWithCounts$ | async; as projects) {
+  @if (projects.length > 0) {
+    <div class="projects-grid">
+      @for (project of projects; track project.id) {
+        <article class="project-card" [style.border-left-color]="project.color" [routerLink]="'/projects/' + project.id" style="cursor: pointer;">
+          <header>
+            <h3>{{ project.name }}</h3>
+            <div class="project-actions">
+              <button class="secondary small" (click)="openEditProject(project); $event.stopPropagation()">Edit</button>
+              <button class="contrast small" (click)="deleteProject(project.id); $event.stopPropagation()">Delete</button>
+            </div>
+          </header>
+          <p class="project-description">{{ project.description || 'No description' }}</p>
+          <footer>
+            <span class="task-count">{{ project.completedCount }}/{{ project.taskCount }} tasks completed</span>
+          </footer>
+        </article>
+      }
+    </div>
+  } @else {
+    <p class="empty">No projects yet. Create one to organize your tasks.</p>
+  }
+}
+
+@if (showModal) {
+  <dialog open>
+    <article>
+      <header>
+        <h3>{{ editingProject ? 'Edit Project' : 'New Project' }}</h3>
+      </header>
+      <form (ngSubmit)="saveProject()">
+        <label>
+          Name
+          <input type="text" [(ngModel)]="projectName" name="name" required>
+        </label>
+        <label>
+          Description
+          <textarea [(ngModel)]="projectDescription" name="description" rows="3"></textarea>
+        </label>
+        <footer>
+          <button type="button" class="secondary" (click)="closeModal()">Cancel</button>
+          <button type="submit">{{ editingProject ? 'Save' : 'Create' }}</button>
+        </footer>
+      </form>
+    </article>
+  </dialog>
+}

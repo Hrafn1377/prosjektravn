@@ -1,0 +1,195 @@
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.quick-stats {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+}
+
+.stat-card {
+    padding: 1rem;
+    border-radius: 1rem;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.stat-icon {
+    font-size: 1.25rem;
+}
+
+.stat-number {
+    font-size: 1.75rem;
+    font-weight: bold;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    opacity: 0.9;
+}
+
+.stat-card.all {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    color: #fff;
+}
+
+.stat-card.pending {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff;
+}
+
+.stat-card.ongoing {
+    background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+    color: #fff;
+}
+
+.stat-card.completed {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: #fff;
+}
+
+.stat-card.today {
+    background: linear-gradient(135deg, #06b6d4, #0891b2);
+    color: #fff;
+}
+
+.stat-card.overdue {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: #fff;
+}
+
+.recent-section,
+.overdue-section,
+.projects-section {
+    min-height: 200px;
+}
+
+.recent-section article,
+.overdue-section article,
+.projects-section article {
+    height: 100%;
+}
+
+article header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+article header h2 {
+    margin: 0;
+    font-size: 1.125rem;
+}
+
+.task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.task-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--pico-muted-border-color);
+}
+
+.task-list li:last-child {
+    border-bottom: none;
+}
+
+.task-status {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 1rem;
+    text-transform: capitalize;
+}
+
+.task-status.pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.task-status.ongoing {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.task-status.completed {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.overdue-item {
+    color: #ef4444;
+}
+
+.due-date {
+    font-size: 0.75rem;
+}
+
+.project-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.project-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: var(--pico-card-background-color);
+    border-left: 4px solid;
+    border-radius: var(--pico-border-radius);
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.project-item:hover {
+    background: var(--pico-secondary-hover-background);
+}
+
+.project-progress {
+    font-size: 0.875rem;
+    color: var(--pico-muted-color);
+}
+
+.empty {
+    color: var(--pico-muted-color);
+    font-style: italic;
+}
+
+.empty.success {
+    color: #10b981;
+}
+
+@media (max-width: 1024px) {
+    .quick-stats {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

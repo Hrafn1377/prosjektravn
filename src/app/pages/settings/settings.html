@@ -1,0 +1,154 @@
+<header>
+  <h1>Customization & Settings</h1>
+</header>
+
+<div class="settings-grid">
+  <section>
+    <article>
+      <h2>Appearance</h2>
+      
+      <div class="setting-row">
+        <label>
+          Theme
+          <select [(ngModel)]="settings.theme" (change)="saveSettings()">
+            <option value="auto">System Default</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="setting-row">
+        <label>
+          Language
+          <select [(ngModel)]="settings.language" (change)="saveSettings()">
+            <option value="en">English</option>
+            <option value="es">Spanish</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="setting-row">
+        <label>
+          Date Format
+          <select [(ngModel)]="settings.dateFormat" (change)="saveSettings()">
+            <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+            <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+            <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+          </select>
+        </label>
+      </div>
+    </article>
+  </section>
+
+  <section>
+    <article>
+      <h2>Notifications</h2>
+
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <h3>Push Notifications</h3>
+          <p>Browser push notifications for tasks and updates</p>
+        </div>
+        @if (notificationStatus === 'default') {
+          <button (click)="enablePushNotifications()">Enable</button>
+        } @else if (notificationStatus === 'granted') {
+          <span class="status-badge granted">✓ Enabled</span>
+        } @else {
+          <span class="status-badge denied">Blocked</span>
+        }
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <h3>Email Notifications</h3>
+          <p>Receive updates via email</p>
+        </div>
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="settings.notifications.email" (change)="saveSettings()">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <h3>Task Reminders</h3>
+          <p>Get reminded about due tasks</p>
+        </div>
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="settings.notifications.taskReminders" (change)="saveSettings()">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <h3>Weekly Digest</h3>
+          <p>Summary of your week</p>
+        </div>
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="settings.notifications.weeklyDigest" (change)="saveSettings()">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </article>
+  </section>
+
+  <section>
+    <article>
+      <h2>Display</h2>
+
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <h3>Compact Mode</h3>
+          <p>Reduce spacing for more content</p>
+        </div>
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="settings.display.compactMode" (change)="saveSettings()">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <h3>Show Completed Tasks</h3>
+          <p>Display completed tasks in lists</p>
+        </div>
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="settings.display.showCompletedTasks" (change)="saveSettings()">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="setting-row">
+        <label>
+          Default View
+          <select [(ngModel)]="settings.display.defaultView" (change)="saveSettings()">
+            <option value="board">Kanban Board</option>
+            <option value="list">List View</option>
+            <option value="calendar">Calendar</option>
+          </select>
+        </label>
+      </div>
+    </article>
+  </section>
+
+  <section>
+    <article>
+      <h2>Data Management</h2>
+
+      <div class="data-actions">
+        <button (click)="exportData()">📤 Export Data</button>
+        <label class="import-btn">
+          <input type="file" accept=".json" (change)="importData($event)" hidden>
+          📥 Import Data
+        </label>
+        <button class="contrast" (click)="clearAllData()">🗑️ Clear All Data</button>
+      </div>
+
+      <p class="data-note">Export your data to back it up or transfer to another device. Import previously exported data to restore.</p>
+    </article>
+  </section>
+</div>

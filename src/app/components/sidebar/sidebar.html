@@ -1,0 +1,21 @@
+<aside class="sidebar">
+  <h2>ProsjektRavn</h2>
+  <nav>
+    @for (group of navGroups; track group.title) {
+      <div class="nav-group">
+        <h3>{{ group.title }}</h3>
+        <ul>
+          @for (item of group.items; track item.route) {
+            <li>
+              <a [routerLink]="item.route" routerLinkActive="active">{{ item.label }}</a>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+    
+    <div class="nav-group">
+      <button (click)="logout()" class="logout-btn">Logout</button>
+    </div>
+  </nav>
+</aside>

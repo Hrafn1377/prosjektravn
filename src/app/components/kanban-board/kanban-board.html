@@ -1,0 +1,85 @@
+<section class="kanban">
+  <header class="kanban-header">
+    <h1>Tasks</h1>
+    <button (click)="openNewTask()">+ New Task</button>
+  </header>
+
+  <div class="kanban-columns">
+    <div class="column">
+      <h2>Pending <span class="count">{{ pendingTasks.length }}</span></h2>
+      <div
+        cdkDropList
+        #pendingList="cdkDropList"
+        [cdkDropListData]="pendingTasks"
+        [cdkDropListConnectedTo]="[ongoingList, completedList]"
+        class="task-list"
+        (cdkDropListDropped)="drop($event, 'pending')"
+      >
+        @for (task of pendingTasks; track task.id) {
+          <div cdkDrag class="drag-item">
+            <app-task-card
+              [task]="task"
+              (edit)="openEditTask($event)"
+              (delete)="onDelete($event)"
+              (move)="onMove($event)"
+            />
+          </div>
+        } @empty {
+          <p class="empty">No pending tasks</p>
+        }
+      </div>
+    </div>
+
+    <div class="column">
+      <h2>Ongoing <span class="count">{{ ongoingTasks.length }}</span></h2>
+      <div
+        cdkDropList
+        #ongoingList="cdkDropList"
+        [cdkDropListData]="ongoingTasks"
+        [cdkDropListConnectedTo]="[pendingList, completedList]"
+        class="task-list"
+        (cdkDropListDropped)="drop($event, 'ongoing')"
+      >
+        @for (task of ongoingTasks; track task.id) {
+          <div cdkDrag class="drag-item">
+            <app-task-card
+              [task]="task"
+              (edit)="openEditTask($event)"
+              (delete)="onDelete($event)"
+              (move)="onMove($event)"
+            />
+          </div>
+        } @empty {
+          <p class="empty">No ongoing tasks</p>
+        }
+      </div>
+    </div>
+
+    <div class="column">
+      <h2>Completed <span class="count">{{ completedTasks.length }}</span></h2>
+      <div
+        cdkDropList
+        #completedList="cdkDropList"
+        [cdkDropListData]="completedTasks"
+        [cdkDropListConnectedTo]="[pendingList, ongoingList]"
+        class="task-list"
+        (cdkDropListDropped)="drop($event, 'completed')"
+      >
+        @for (task of completedTasks; track task.id) {
+          <div cdkDrag class="drag-item">
+            <app-task-card
+              [task]="task"
+              (edit)="openEditTask($event)"
+              (delete)="onDelete($event)"
+              (move)="onMove($event)"
+            />
+          </div>
+        } @empty {
+          <p class="empty">No completed tasks</p>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-task-modal (save)="onSave($event)" />

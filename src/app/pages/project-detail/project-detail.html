@@ -1,0 +1,56 @@
+@if (projectData$ | async; as data) {
+  @if (data.project) {
+    <header class="page-header">
+      <div>
+        <a routerLink="/projects" class="back-link">← Back to Projects</a>
+        <h1 [style.border-left]="'4px solid ' + data.project.color" class="project-title">
+          {{ data.project.name }}
+        </h1>
+        <p class="project-description">{{ data.project.description }}</p>
+      </div>
+      <div class="project-stats">
+        <span>{{ data.stats.completed }}/{{ data.stats.total }} tasks completed</span>
+      </div>
+    </header>
+
+    <div class="kanban-columns">
+      <section class="column">
+        <h2>Pending <span class="count">{{ data.tasks.pending.length }}</span></h2>
+        @for (task of data.tasks.pending; track task.id) {
+          <article class="task-card">
+            <strong>{{ task.title }}</strong>
+            <p>{{ task.description }}</p>
+          </article>
+        } @empty {
+          <p class="empty">No pending tasks</p>
+        }
+      </section>
+
+      <section class="column">
+        <h2>Ongoing <span class="count">{{ data.tasks.ongoing.length }}</span></h2>
+        @for (task of data.tasks.ongoing; track task.id) {
+          <article class="task-card">
+            <strong>{{ task.title }}</strong>
+            <p>{{ task.description }}</p>
+          </article>
+        } @empty {
+          <p class="empty">No ongoing tasks</p>
+        }
+      </section>
+
+      <section class="column">
+        <h2>Completed <span class="count">{{ data.tasks.completed.length }}</span></h2>
+        @for (task of data.tasks.completed; track task.id) {
+          <article class="task-card">
+            <strong>{{ task.title }}</strong>
+            <p>{{ task.description }}</p>
+          </article>
+        } @empty {
+          <p class="empty">No completed tasks</p>
+        }
+      </section>
+    </div>
+  } @else {
+    <p>Project not found. <a routerLink="/projects">Back to projects</a></p>
+  }
+}

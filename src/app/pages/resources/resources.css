@@ -1,0 +1,116 @@
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fil, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.resource-card header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.resource-info h3 {
+    margin: 0 0 0.25rem 0;
+}
+
+.role {
+    font-size: 0.875rem;
+    color: var(--pico-muted-color);
+}
+
+.actions {
+    display: flex;
+    gap: 0.25rem;
+}
+
+button.small {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    margin: 0;
+}
+
+.utilization {
+    margin-bottom: 1rem;
+}
+
+.utilizations-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.utilization-bar {
+    height: 8px;
+    background: var(--pico-secondary-hover-background);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.utilization-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.resource-card footer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--pico-muted-border-color);
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-value {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--pico-muted-color);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+}
+
+.empty-state p:first-child {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: var(--pico-muted-color);
+    margin-bottom: 1rem;
+}
+
+dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+} 

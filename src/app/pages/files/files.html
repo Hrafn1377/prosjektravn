@@ -1,0 +1,51 @@
+<header class="page-header">
+    <h1>File-Sharing & Approvals</h1>
+    <label class="upload-btn">
+        <input type="file" (change)="onFileSelect($event)" hidden>
+        📤 Upload File
+    </label>
+</header>
+
+@if (files$ | async; as files) {
+    @if (files.length > 0) {
+        <div class="files-table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>File</th>
+                        <th>Type</th>
+                        <th>Size</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (file of files; track file.id) {
+                        <tr>
+                            <td><strong>{{ file.name }}</strong></td>
+                            <td>{{ file.type }}</td>
+                            <td>{{ file.size }}</td>
+                            <td>{{ formatDate(file.created_at) }}</td>
+                            <td>
+                                <span class="status status-{{ file.status }}">{{ file.status }}</span>
+                            </td>
+                            <td class="actions">
+                                @if (file.status === 'pending') {
+                                    <button class="small approve" (click)="approve(file.id)">✓</button>
+                                    <button class="small reject" (click)="reject(file.id)">✗</button>
+                                }
+                                <button class="small contrast" (click)="deleteFile(file.id)">🗑️</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    } @else {
+        <article class="empty-state">
+            <p>📁 No files shared yet</p>
+            <p>Upload a file to get started with file sharing and approvals.</p>
+        </article>
+    }
+}

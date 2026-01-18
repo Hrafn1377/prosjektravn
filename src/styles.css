@@ -1,0 +1,119 @@
+/* Frappe Gantt Styles */
+.gantt .grid-background {
+    fill: none;
+}
+
+.gantt .grid-header {
+    fill: var(--pico-card-background-color);
+    stroke: var(--pico-muted-border-color);
+    stroke-width: 1.4;
+}
+
+.gantt .grid-row {
+    fill: transparent;
+}
+
+.gantt .grid-row:nth-child(even) {
+    fill: rgba(128, 128, 128, 0.05);
+}
+
+.gantt .row-line {
+    stroke: var(--pico-muted-border-color);
+}
+
+.gantt .tick {
+    stroke: var(--pico-muted-border-color);
+    stroke-width: 0.2;
+}
+
+.gantt .tick.thick {
+    stroke-width: 0.4;
+}
+
+.gantt .today-highlight {
+    fill: var(--pico-primary);
+    opacity: 0.1;
+}
+
+.gantt .arrow {
+    fill: none;
+    stroke: var(--pico-muted-color);
+    stroke-width: 1.4;
+}
+
+.gantt .bar {
+    fill: var(--pico-primary);
+    stroke: var(--pco-primary);
+    stroke-width: 0;
+    transition: stroke-width 0.3s ease;
+    cursor: pointer;
+}
+
+.gantt .bar-progress {
+    fill: var(--pico-primary-hover);
+}
+
+.gantt .bar-invalid {
+    fill: transparent;
+    stroke: var(--pico-muted-color);
+    stroke-width: 1;
+    stroke-dasharray: 5;
+}
+
+.gantt .bar-label {
+    fill: #fff;
+    dominant-baseline: central;
+    text-anchor: start;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.gantt .bar-label.big {
+    fill: #fff;
+    text-anchor: start;
+}
+
+.gantt .handle {
+    fill: var(--pico-primary);
+    cursor: ew-resize;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+
+.gantt .bar-wrapper:hover .handle {
+    visibility: visible;
+    opacity: 1;
+}
+
+.gantt .bar-wrapper {
+    cursor: pointer;
+}
+
+.gantt .bar-wrapper:hover .bar {
+    stroke-width: 2;
+}
+
+.gantt .lower-text,
+.gantt .upper-text {
+    fill: var(--pico-color);
+    font-size: 12px;
+}
+
+.gantt #details .details-container {
+    background: var(--pico-card-background-color);
+    border: 1px solid var(--pico-muted-border-color);
+    border-radius: var(--pico-border-radius);
+    padding: 1rem;
+}
+
+.gantt #details h5 {
+    margin: 0 0 0.5rem 0;
+    color: var(--pico-color);
+}
+
+.gantt #details p {
+    margin: 0;
+    color: var(--pico-muted-color);
+    font-size: 0.875rem;
+}

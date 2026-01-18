@@ -1,0 +1,371 @@
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+}
+
+.nav-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pico-secondary-background);
+  border: none;
+  border-radius: var(--pico-border-radius);
+  cursor: pointer;
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.icon-btn:hover {
+  background: var(--pico-secondary-hover-background);
+}
+
+.today-btn {
+  padding: 0.5rem 1rem;
+  margin: 0;
+}
+
+.month-header {
+  font-size: 1.75rem;
+  font-weight: 300;
+  text-transform: capitalize;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+/* Calendar Grid */
+.calendar {
+  background: var(--pico-card-background-color);
+  border-radius: var(--pico-border-radius);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.weekday-row {
+  display: grid;
+  grid-template-columns: 48px repeat(7, 1fr);
+  background: var(--pico-primary);
+}
+
+.week-label {
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.weekday {
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.weekday.weekend {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.week-row {
+  display: grid;
+  grid-template-columns: 48px repeat(7, 1fr);
+  border-bottom: 1px solid var(--pico-muted-border-color);
+}
+
+.week-row:last-child {
+  border-bottom: none;
+}
+
+.week-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--pico-muted-color);
+  background: rgba(0, 0, 0, 0.03);
+  border-right: 1px solid var(--pico-muted-border-color);
+}
+
+.day-cell {
+  min-height: 64px;
+  padding: 0.5rem;
+  border-right: 1px solid var(--pico-muted-border-color);
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.day-cell:last-child {
+  border-right: none;
+}
+
+.day-cell:nth-child(7),
+.day-cell:nth-child(8) {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.day-number {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.day-cell.other-month {
+  opacity: 0.35;
+}
+
+.day-cell.today {
+  background: var(--pico-primary-focus) !important;
+}
+
+.day-cell.today .day-number {
+  background: var(--pico-primary);
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Heat Map Colors */
+.day-cell.heat-light {
+  background: rgba(16, 185, 129, 0.15);
+}
+
+.day-cell.heat-medium {
+  background: rgba(245, 158, 11, 0.2);
+}
+
+.day-cell.heat-heavy {
+  background: rgba(239, 68, 68, 0.25);
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  justify-content: center;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  font-size: 0.85rem;
+  color: var(--pico-muted-color);
+}
+
+.legend-label {
+  font-weight: 500;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.legend-swatch {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: var(--pico-card-background-color);
+  border: 1px solid var(--pico-muted-border-color);
+}
+
+.legend-swatch.heat-light {
+  background: rgba(16, 185, 129, 0.4);
+  border-color: rgba(16, 185, 129, 0.5);
+}
+
+.legend-swatch.heat-medium {
+  background: rgba(245, 158, 11, 0.5);
+  border-color: rgba(245, 158, 11, 0.6);
+}
+
+.legend-swatch.heat-heavy {
+  background: rgba(239, 68, 68, 0.5);
+  border-color: rgba(239, 68, 68, 0.6);
+}
+
+/* Swimlanes */
+.swimlanes {
+  margin-top: 2rem;
+}
+
+.swimlanes h2 {
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+  letter-spacing: 0.02em;
+}
+
+.swimlane {
+  background: var(--pico-card-background-color);
+  border-radius: var(--pico-border-radius);
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.swimlane-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  background: rgba(0, 0, 0, 0.03);
+  border-bottom: 1px solid var(--pico-muted-border-color);
+}
+
+.project-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.project-name {
+  font-weight: 500;
+  flex-grow: 1;
+}
+
+.task-count {
+  font-size: 0.8rem;
+  color: var(--pico-muted-color);
+}
+
+.swimlane-body {
+  padding: 0.5rem 1rem;
+  min-height: 48px;
+}
+
+.swimlane-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 4px;
+  position: relative;
+  min-height: 32px;
+}
+
+/* Task Bars */
+.task-bar {
+  height: 26px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.task-bar:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.task-progress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 4px 0 0 4px;
+  pointer-events: none;
+}
+
+.task-label {
+  position: relative;
+  z-index: 1;
+  font-size: 0.75rem;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: var(--pico-muted-color);
+}
+
+.empty-state p {
+  margin: 0.5rem 0;
+}
+
+.empty-state p:first-child {
+  font-size: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .month-header {
+    font-size: 1.25rem;
+  }
+
+  .weekday-row,
+  .week-row {
+    grid-template-columns: 36px repeat(7, 1fr);
+  }
+
+  .weekday {
+    font-size: 0.65rem;
+    padding: 0.5rem 0.25rem;
+  }
+
+  .day-cell {
+    min-height: 48px;
+    padding: 0.25rem;
+  }
+
+  .day-number {
+    font-size: 0.75rem;
+  }
+
+  .legend {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .swimlane-week {
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  .task-bar {
+    height: 22px;
+    padding: 0 4px;
+  }
+
+  .task-label {
+    font-size: 0.65rem;
+  }
+}

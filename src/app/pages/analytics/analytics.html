@@ -1,0 +1,224 @@
+<header class="page-header">
+  <h1>Analytics & Reporting</h1>
+  <button (click)="toggleReport()">
+    {{ showReport ? 'Hide Report' : 'Generate Status Report' }}
+  </button>
+</header>
+
+@if (analytics$ | async; as data) {
+  <!-- Status Report Section -->
+  @if (showReport) {
+    <article class="status-report">
+      <header>
+        <h2>Status Report</h2>
+        <div class="report-actions">
+          <button class="secondary small" (click)="copyReport(data)">
+            {{ reportCopied ? '✓ Copied!' : 'Copy to Clipboard' }}
+          </button>
+        </div>
+      </header>
+      
+      <div class="report-content">
+        <section class="report-section">
+          <h3>Summary</h3>
+          <div class="summary-grid">
+            <div class="summary-item">
+              <span class="summary-value">{{ data.totalTasks }}</span>
+              <span class="summary-label">Total Tasks</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-value success">{{ data.completedTasks }}</span>
+              <span class="summary-label">Completed</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-value">{{ data.statusBreakdown.ongoing }}</span>
+              <span class="summary-label">In Progress</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-value" [class.warning]="data.overdueTasks > 0">{{ data.overdueTasks }}</span>
+              <span class="summary-label">Overdue</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="report-section">
+          <h3>✓ Completed</h3>
+          @if (data.recentlyCompletedList.length > 0) {
+            <ul class="task-list completed-list">
+              @for (task of data.recentlyCompletedList; track task.id) {
+                <li>
+                  <span class="task-title">{{ task.title }}</span>
+                  <span class="task-project">{{ getProjectName(task.projectId, data.projects) }}</span>
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="empty-message">No tasks completed in the last 7 days.</p>
+          }
+        </section>
+
+        <section class="report-section">
+          <h3>→ In Progress</h3>
+          @if (data.ongoingList.length > 0) {
+            <ul class="task-list ongoing-list">
+              @for (task of data.ongoingList; track task.id) {
+                <li>
+                  <span class="task-title">
+                    @if (task.priority === 'high') {
+                      <span class="priority-badge high">HIGH</span>
+                    }
+                    {{ task.title }}
+                  </span>
+                  <span class="task-project">{{ getProjectName(task.projectId, data.projects) }}</span>
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="empty-message">No tasks in progress.</p>
+          }
+        </section>
+
+        <section class="report-section">
+          <h3>⚠ Issues & Blockers</h3>
+          @if (data.overdueList.length > 0) {
+            <ul class="task-list issues-list">
+              @for (task of data.overdueList; track task.id) {
+                <li>
+                  <span class="task-title">{{ task.title }}</span>
+                  <span class="task-due overdue">Due: {{ task.dueDate | date:'shortDate' }}</span>
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="empty-message success">No overdue tasks. Great job!</p>
+          }
+        </section>
+
+        <section class="report-section">
+          <h3>Project Status</h3>
+          @if (data.projectStats.length > 0) {
+            <div class="project-status-list">
+              @for (project of data.projectStats; track project.name) {
+                <div class="project-status-item">
+                  <div class="project-info">
+                    <span class="project-color" [style.background]="project.color"></span>
+                    <span class="project-name">{{ project.name }}</span>
+                  </div>
+                  <div class="project-progress">
+                    <div class="mini-progress-bar">
+                      <div class="mini-progress-fill" [style.width.%]="project.rate" [style.background]="project.color"></div>
+                    </div>
+                    <span class="project-stats">{{ project.completed }}/{{ project.total }} ({{ project.rate }}%)</span>
+                  </div>
+                </div>
+              }
+            </div>
+          } @else {
+            <p class="empty-message">No projects created yet.</p>
+          }
+        </section>
+      </div>
+    </article>
+  }
+
+  <!-- Existing Analytics Grid -->
+  <div class="analytics-grid">
+    <article class="overview-card">
+      <h2>Overview</h2>
+      <div class="overview-stats">
+        <div class="stat">
+          <span class="stat-value">{{ data.totalTasks }}</span>
+          <span class="stat-label">Total Tasks</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">{{ data.completedTasks }}</span>
+          <span class="stat-label">Completed</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">{{ data.completionRate }}%</span>
+          <span class="stat-label">Completion Rate</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value warning">{{ data.overdueTasks }}</span>
+          <span class="stat-label">Overdue</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="chart-card">
+      <h2>Tasks by Status</h2>
+      <div class="bar-chart">
+        <div class="bar-item">
+          <span class="bar-label">Pending</span>
+          <div class="bar-wrapper">
+            <div class="bar pending" [style.width.%]="data.totalTasks > 0 ? (data.statusBreakdown.pending / data.totalTasks * 100) : 0"></div>
+          </div>
+          <span class="bar-value">{{ data.statusBreakdown.pending }}</span>
+        </div>
+        <div class="bar-item">
+          <span class="bar-label">Ongoing</span>
+          <div class="bar-wrapper">
+            <div class="bar ongoing" [style.width.%]="data.totalTasks > 0 ? (data.statusBreakdown.ongoing / data.totalTasks * 100) : 0"></div>
+          </div>
+          <span class="bar-value">{{ data.statusBreakdown.ongoing }}</span>
+        </div>
+        <div class="bar-item">
+          <span class="bar-label">Completed</span>
+          <div class="bar-wrapper">
+            <div class="bar completed" [style.width.%]="data.totalTasks > 0 ? (data.statusBreakdown.completed / data.totalTasks * 100) : 0"></div>
+          </div>
+          <span class="bar-value">{{ data.statusBreakdown.completed }}</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="chart-card">
+      <h2>Tasks by Priority</h2>
+      <div class="bar-chart">
+        <div class="bar-item">
+          <span class="bar-label">High</span>
+          <div class="bar-wrapper">
+            <div class="bar high" [style.width.%]="data.totalTasks > 0 ? (data.priorityBreakdown.high / data.totalTasks * 100) : 0"></div>
+          </div>
+          <span class="bar-value">{{ data.priorityBreakdown.high }}</span>
+        </div>
+        <div class="bar-item">
+          <span class="bar-label">Medium</span>
+          <div class="bar-wrapper">
+            <div class="bar medium" [style.width.%]="data.totalTasks > 0 ? (data.priorityBreakdown.medium / data.totalTasks * 100) : 0"></div>
+          </div>
+          <span class="bar-value">{{ data.priorityBreakdown.medium }}</span>
+        </div>
+        <div class="bar-item">
+          <span class="bar-label">Low</span>
+          <div class="bar-wrapper">
+            <div class="bar low" [style.width.%]="data.totalTasks > 0 ? (data.priorityBreakdown.low / data.totalTasks * 100) : 0"></div>
+          </div>
+          <span class="bar-value">{{ data.priorityBreakdown.low }}</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="projects-card">
+      <h2>Project Progress</h2>
+      @if (data.projectStats.length > 0) {
+        <div class="project-progress-list">
+          @for (project of data.projectStats; track project.name) {
+            <div class="project-progress-item">
+              <div class="project-header">
+                <span class="project-name" [style.border-left-color]="project.color">{{ project.name }}</span>
+                <span class="project-rate">{{ project.rate }}%</span>
+              </div>
+              <div class="progress-bar-wrapper">
+                <div class="progress-bar" [style.width.%]="project.rate" [style.background]="project.color"></div>
+              </div>
+              <span class="project-count">{{ project.completed }}/{{ project.total }} tasks</span>
+            </div>
+          }
+        </div>
+      } @else {
+        <p class="empty">No projects yet.</p>
+      }
+    </article>
+  </div>
+}

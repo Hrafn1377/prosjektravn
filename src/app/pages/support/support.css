@@ -1,0 +1,311 @@
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.header-actions button {
+  margin: 0;
+}
+
+.support-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+article h2 {
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+}
+
+.faq-section {
+  grid-column: 1 / -1;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.faq-item {
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: var(--pico-border-radius);
+  overflow: hidden;
+}
+
+.faq-question {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 1rem;
+  margin: 0;
+  color: inherit;
+}
+
+.faq-question span {
+  color: var(--pico-color);
+}
+
+.faq-question:hover {
+  background: var(--pico-secondary-hover-background);
+}
+
+.toggle-icon {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.faq-answer {
+  padding: 0 1rem 1rem 1rem;
+  margin: 0;
+  color: var(--pico-muted-color);
+}
+
+.ticket-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ticket-item {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--pico-muted-border-color);
+}
+
+.ticket-item:last-child {
+  border-bottom: none;
+}
+
+.ticket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.ticket-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ticket-type-icon {
+  font-size: 1rem;
+}
+
+.status {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  text-transform: capitalize;
+}
+
+.status-open {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-in-progress {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.status-resolved {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.ticket-description {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.875rem;
+  color: var(--pico-muted-color);
+  white-space: pre-wrap;
+}
+
+.ticket-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.meta {
+  font-size: 0.75rem;
+  color: var(--pico-muted-color);
+}
+
+.ticket-type {
+  font-weight: 500;
+}
+
+.ticket-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+button.small {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  margin: 0;
+}
+
+.contact-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.contact-icon {
+  font-size: 1.5rem;
+}
+
+.contact-item h3 {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.contact-item p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--pico-muted-color);
+}
+
+.empty {
+  color: var(--pico-muted-color);
+  font-style: italic;
+}
+
+/* Template Selector Modal */
+.template-modal {
+  min-width: 400px;
+}
+
+.template-modal header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.template-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.template-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: var(--pico-card-background-color);
+  border: 2px solid var(--pico-muted-border-color);
+  border-radius: var(--pico-border-radius);
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.template-card:hover {
+  border-color: var(--pico-primary);
+  transform: translateY(-2px);
+}
+
+.template-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.template-name {
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+/* Ticket Form Modal */
+.ticket-modal {
+  min-width: 550px;
+  max-width: 700px;
+}
+
+.ticket-modal header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ticket-modal header h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ticket-modal textarea {
+  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  width: auto;
+}
+
+dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+dialog[open] {
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+@media (max-width: 768px) {
+  .support-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .template-modal,
+  .ticket-modal {
+    min-width: auto;
+    width: 90vw;
+  }
+
+  .template-grid {
+    grid-template-columns: 1fr;
+  }
+}

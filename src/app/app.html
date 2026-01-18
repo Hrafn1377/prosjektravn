@@ -1,0 +1,8 @@
+<div class="layout" [class.sidebar-open]="sidebarOpen">
+  <button class="menu-toggle" (click)="toggleSidebar()">☰</button>
+  <div class="sidebar-overlay" (click)="closeSidebar()"></div>
+  <app-sidebar (click)="closeSidebar()" />
+  <main class="content">
+    <router-outlet />
+  </main>
+</div>

@@ -1,0 +1,76 @@
+.sidebar{
+    min-width: 200px;
+    background: var(--pico-card-background-color);
+    padding: 1.5rem;
+    border-right: 1px solid var(--pico-muted-border-color);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+}
+
+.sidebar h2 {
+    white-space: nowrap;
+    margin-bottom: 1.5rem;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    margin-bottom: 0.5rem;
+}
+
+.nav-group {
+    margin-bottom: 1.5rem;
+}
+
+.nav-group h3 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--pico-muted-color);
+    margin-bottom: 0.5rem;
+}
+
+.nav-group ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-group a{
+    display:block;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--pico-border-radius);
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.nav-group a.active {
+    font-weight: bold;
+    color: var(--pico-primary-inverse, #fff);
+    background-color: var(--pico-primary);
+}
+
+.nav-group a:hover {
+    background-color: var(--pico-secondary-hover-background);
+}
+.logout-btn {
+  width: 100%;
+  margin-top: 1rem;
+  background-color: var(--pico-del-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--pico-border-radius);
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.logout-btn:hover {
+  opacity: 0.8;
+}

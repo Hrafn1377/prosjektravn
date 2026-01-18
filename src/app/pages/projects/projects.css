@@ -1,0 +1,73 @@
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.project-card {
+    border-left: 4px solid;
+    padding: 1.5rem;
+}
+
+.project-card header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
+
+.project-card h3 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.project-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.project-actions button {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    margin: 1rem;
+}
+
+.project-description {
+    color: var(--pico-muted-color);
+    margin-bottom: 1rem;
+}
+
+.task-count {
+    font-size: 0.875rem;
+    color: var(--pico-muted-color);
+}
+
+.empty {
+    color: var(--pico-muted-color);
+}
+
+dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,102 @@
+<header>
+  <h1>Dashboard</h1>
+</header>
+
+@if (dashboardData$ | async; as data) {
+  <div class="dashboard-grid">
+    <section class="quick-stats">
+      <a routerLink="/tasks" class="stat-card all">
+        <span class="stat-icon">📋</span>
+        <span class="stat-number">{{ data.stats.total }}</span>
+        <span class="stat-label">All Tasks</span>
+      </a>
+      <a routerLink="/tasks" class="stat-card pending">
+        <span class="stat-icon">⏳</span>
+        <span class="stat-number">{{ data.stats.pending }}</span>
+        <span class="stat-label">Pending</span>
+      </a>
+      <a routerLink="/tasks" class="stat-card ongoing">
+        <span class="stat-icon">🔄</span>
+        <span class="stat-number">{{ data.stats.ongoing }}</span>
+        <span class="stat-label">Ongoing</span>
+      </a>
+      <a routerLink="/tasks" class="stat-card completed">
+        <span class="stat-icon">✓</span>
+        <span class="stat-number">{{ data.stats.completed }}</span>
+        <span class="stat-label">Completed</span>
+      </a>
+      <div class="stat-card today">
+        <span class="stat-icon">📅</span>
+        <span class="stat-number">{{ data.stats.today }}</span>
+        <span class="stat-label">Due Today</span>
+      </div>
+      <div class="stat-card overdue">
+        <span class="stat-icon">⚠️</span>
+        <span class="stat-number">{{ data.stats.overdue }}</span>
+        <span class="stat-label">Overdue</span>
+      </div>
+    </section>
+
+    <section class="recent-section">
+      <article>
+        <header>
+          <h2>Recent Tasks</h2>
+          <a routerLink="/tasks">View all →</a>
+        </header>
+        @if (data.recentTasks.length > 0) {
+          <ul class="task-list">
+            @for (task of data.recentTasks; track task.id) {
+              <li>
+                <span class="task-title">{{ task.title }}</span>
+                <span class="task-status {{ task.status }}">{{ task.status }}</span>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="empty">No tasks yet. <a routerLink="/tasks">Create one →</a></p>
+        }
+      </article>
+    </section>
+
+    <section class="overdue-section">
+      <article>
+        <header>
+          <h2>Overdue Tasks</h2>
+        </header>
+        @if (data.overdueTasks.length > 0) {
+          <ul class="task-list">
+            @for (task of data.overdueTasks; track task.id) {
+              <li class="overdue-item">
+                <span class="task-title">{{ task.title }}</span>
+                <span class="due-date">{{ task.dueDate }}</span>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="empty success">No overdue tasks! 🎉</p>
+        }
+      </article>
+    </section>
+
+    <section class="projects-section">
+      <article>
+        <header>
+          <h2>Projects</h2>
+          <a routerLink="/projects">View all →</a>
+        </header>
+        @if (data.projects.length > 0) {
+          <div class="project-list">
+            @for (project of data.projects; track project.id) {
+              <a [routerLink]="'/projects/' + project.id" class="project-item" [style.border-left-color]="project.color">
+                <span class="project-name">{{ project.name }}</span>
+                <span class="project-progress">{{ project.completedCount }}/{{ project.taskCount }}</span>
+              </a>
+            }
+          </div>
+        } @else {
+          <p class="empty">No projects yet. <a routerLink="/projects">Create one →</a></p>
+        }
+      </article>
+    </section>
+  </div>
+}

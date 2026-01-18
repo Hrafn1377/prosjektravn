@@ -1,0 +1,90 @@
+<header class="page-header">
+  <h1>Resource Management</h1>
+  <button (click)="openModal()">+ Add Resource</button>
+</header>
+
+@if (resourceData$ | async; as resources) {
+  @if (resources.length > 0) {
+    <div class="resources-grid">
+      @for (resource of resources; track resource.id) {
+        <article class="resource-card">
+          <header>
+            <div class="resource-info">
+              <h3>{{ resource.name }}</h3>
+              <span class="role">{{ resource.role }}</span>
+            </div>
+            <div class="actions">
+              <button class="small secondary" (click)="openModal(resource)">Edit</button>
+              <button class="small contrast" (click)="deleteResource(resource.id)">×</button>
+            </div>
+          </header>
+          
+          <div class="utilization">
+            <div class="utilization-header">
+              <span>Utilization</span>
+              <span [style.color]="getUtilizationColor(resource.utilizationRate)">
+                {{ resource.utilizationRate }}%
+              </span>
+            </div>
+            <div class="utilization-bar">
+              <div 
+                class="utilization-fill" 
+                [style.width.%]="Math.min(resource.utilizationRate, 100)"
+                [style.background]="getUtilizationColor(resource.utilizationRate)"
+              ></div>
+            </div>
+          </div>
+
+          <footer>
+            <div class="stat">
+              <span class="stat-value">{{ resource.capacity }}h</span>
+              <span class="stat-label">Capacity/week</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">{{ resource.workload }}h</span>
+              <span class="stat-label">Assigned</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">{{ resource.taskCount }}</span>
+              <span class="stat-label">Tasks</span>
+            </div>
+          </footer>
+        </article>
+      }
+    </div>
+  } @else {
+    <article class="empty-state">
+      <p>👥 No resources added yet</p>
+      <p>Add team members to track capacity and workload.</p>
+      <button (click)="openModal()">Add Resource</button>
+    </article>
+  }
+}
+
+@if (showModal) {
+  <dialog open>
+    <article>
+      <header>
+        <h3>{{ editingResource ? 'Edit Resource' : 'Add Resource' }}</h3>
+      </header>
+      <form (ngSubmit)="saveResource()">
+        <label>
+          Name
+          <input type="text" [(ngModel)]="resourceName" name="name" required>
+        </label>
+        <label>
+          Role
+          <input type="text" [(ngModel)]="resourceRole" name="role" required placeholder="e.g., Developer, Designer">
+        </label>
+        <label>
+          Weekly Capacity (hours)
+          <input type="number" [(ngModel)]="resourceCapacity" name="capacity" min="1" max="60">
+        </label>
+        <footer>
+          <button type="button" class="secondary" (click)="closeModal()">Cancel</button>
+          <button type="submit">Save</button>
+        </footer>
+      </form>
+    </article>
+  </dialog>
+}

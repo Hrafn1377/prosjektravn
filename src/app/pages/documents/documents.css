@@ -1,0 +1,243 @@
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.header-actions button {
+    margin: 0;
+}
+
+.documents-layout {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 1.5rem;
+}
+
+.folders-sidebar {
+    background: var(--pico-card-background-color);
+    padding: 1rem;
+    border-radius: var(--pico-border-radius);
+    height: fit-content;
+}
+
+.folders-sidebar h3 {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    color: var(--pico-muted-color);
+    margin-bottom: 1rem;
+}
+
+.folders-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.folders-sidebar li {
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--pico-border-radius);
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.folders-sidebar li:hover {
+    background: var(--pico-secondary-hover-background);
+}
+
+.folders-sidebar li.active {
+    background: var(--pico-primary);
+    color: #fff;
+}
+
+.documents-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.doc-card {
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.doc-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.doc-card h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.doc-card p {
+    font-size: 0.875rem;
+    color: var(--pico-muted-color);
+    margin-bottom: 1rem;
+}
+
+.doc-card footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--pico-muted-color);
+}
+
+button.small {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    margin: 0;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+}
+
+.empty-state p {
+    font-size: 1.25rem;
+    color: var(--pico-muted-color);
+    margin-bottom: 1rem;
+}
+
+.empty-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.empty-actions button {
+    margin: 0;
+}
+
+/* Templates Modal */
+.templates-modal {
+    min-width: 500px;
+}
+
+.templates-modal header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.templates-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.template-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: var(--pico-card-background-color);
+    border: 2px solid var(--pico-muted-border-color);
+    border-radius: var(--pico-border-radius);
+    cursor: pointer;
+    transition: border-color 0.2s ease, transform 0.2s ease; 
+}
+
+.template-card:hover {
+    border-color: var(--pico-primary);
+    transform: translateY(-2px);
+}
+
+.template-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.template-name {
+    font-weight: 500;
+    text-align: center;
+}
+
+/* Editor Modal */
+.editor-modal {
+    min-width: 600px;
+    max-width: 800px;
+}
+
+.editor-modal header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.editor-modal textarea {
+    font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    width: auto;
+}
+
+dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+dialog[open] {
+    max-height: 90vh;
+    overflow-y: auto;
+    margin: auto;
+    z-index: 1000;
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .documents-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .folders-sidebar {
+        order: -1;
+    }
+
+    .folders-sidebar ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .template-modal,
+    .editor-modal {
+        min-width: auto;
+        width: 90vw;
+    }
+
+    .templates-grid {
+        grid-template-columns: 1fr;
+    }
+}
