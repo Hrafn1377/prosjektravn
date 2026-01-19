@@ -1,3 +1,4 @@
 export const environment = {
-  apiUrl: 'http://localhost:3000/api'
+  production: true,
+  apiUrl: 'https://prosjektravn-production.up.railway.app'
 };
