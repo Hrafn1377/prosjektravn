@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "taskpilot": {
+    "prosjektravn": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -56,10 +56,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "taskpilot:build:production"
+              "buildTarget": "prosjektravn:build:production"
             },
             "development": {
-              "buildTarget": "taskpilot:build:development"
+              "buildTarget": "prosjektravn:build:development"
             }
           },
           "defaultConfiguration": "development"
