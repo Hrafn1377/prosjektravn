@@ -14,11 +14,17 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL
 });
 
+// CORS configuration for both dev and production
+const allowedOrigins = [
+  "http://localhost:4200",
+  "https://prosjektravn-ksc5.vercel.app"
+];
+
 // Create HTTP server and Socket.io
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:4200",
+    origin: allowedOrigins,
     methods: ["GET", "POST", "PUT", "DELETE"]
   }
 });
@@ -56,7 +62,10 @@ const emitToUser = (userId, event, data) => {
   io.to(`user:${userId}`).emit(event, data);
 };
 
-app.use(cors());
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
 app.use(express.json());
 
 // Test route
